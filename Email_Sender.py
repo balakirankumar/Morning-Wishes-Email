@@ -20,7 +20,6 @@ EMAIL_PASSWORD=os.environ.get('Email_pass')
 url='http://quotes.toscrape.com/tag/'
 type_=["love","inspirational","life","humor","books","reading","friendship","friends","truth","simile",]
 url_final=url+random.choice(type_)+"/"
-print(url_final)
 #making request
 r=requests.get(url_final)
 soup=BeautifulSoup(r.text,'lxml')
@@ -47,15 +46,13 @@ numb=random.randrange(0,len_lists)-1
 contacts = ["Reciever1@gmail.com","Reciever2@gmail.com","so_on@gmail.com"]
 subject= "Good Morning "
 content=f"Quote: {quotes_l[numb]} \nAuthor: {author_l[numb]}. \nTags: {tags_l[numb]}."
-print(content)
 msg = EmailMessage()
 msg['Subject'] = subject
 msg['From'] = EMAIL_ADDRESS
 msg['To'] = contacts
 msg.set_content(content)
 
-print("Composing Gmail to {0} from {1}'s account".format(contacts,EMAIL_ADDRESS))
+
 with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
 	smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
 	smtp.send_message(msg)
-print("Task Accomplished with Sending Gmails")
