@@ -43,7 +43,7 @@ for i in range(len(quotes)):
     tag=tags[i].find_all('a',class_='tag')
     t=""
     for j in tag:
-        t+=", "+j.text
+        t+=", #"+j.text
     tags_l.append(t.lstrip(", "))
 len_lists=len(quotes_l)
 numb=random.randrange(0,len_lists)-1
@@ -56,7 +56,7 @@ content=f"Quote: {quotes_l[numb]} \nAuthor: {author_l[numb]}. \nTags: {tags_l[nu
 msg = EmailMessage()
 msg['Subject'] = subject
 msg['From'] = EMAIL_ADDRESS
-msg['To'] = contacts
+msg['Bcc'] = contacts
 msg.set_content(content)
 
 
