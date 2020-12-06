@@ -58,7 +58,7 @@ else:
     random_quote=random.randrange(0,len(Quotes))
     for_sending=f"{Quotes[random_quote]}\n{Author[random_quote]}\n{Tags[random_quote][2:]}"
 
-reciepents = ["balakirankumar29@gmail.com",'balakirankumar999@gmail.com']
+reciepents=["Reciever1@gmail.com","Reciever2@gmail.com","so_on@gmail.com"]
 EMAIL_ADDRESS=os.environ.get('Email_mail')
 EMAIL_PASSWORD=os.environ.get('Email_pass')
 subject='Gooed Morning'
