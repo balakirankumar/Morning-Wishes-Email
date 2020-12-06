@@ -44,7 +44,7 @@ if not os.path.exists('./BrainyQuotesSeperator@.txt'):
     Quotes=list(set(quotesdupli))
     Quotes.pop(0)
     random_quote=random.randrange(0,len(Quotes))
-    for_sending=f"Quote: {Quotes[random_quote]}\nAuthor: {Author[random_quote]}\nTags: {Tags[random_quote][2:]}"
+    Content=f"Quote: {Quotes[random_quote]}\nAuthor: {Author[random_quote]}\nTags: {Tags[random_quote][2:]}"
     #time taken by requests is 1.9567549228668213 
     #time taken by file reading is 0.10269331932067871
 
@@ -56,7 +56,7 @@ else:
             Author.append(A)
             Tags.append(T)
     random_quote=random.randrange(0,len(Quotes))
-    for_sending=f"{Quotes[random_quote]}\n{Author[random_quote]}\n{Tags[random_quote][2:]}"
+    Content=f"{Quotes[random_quote]}\n{Author[random_quote]}\n{Tags[random_quote][2:]}"
 
 reciepents=["Reciever1@gmail.com","Reciever2@gmail.com","so_on@gmail.com"]
 EMAIL_ADDRESS=os.environ.get('Email_mail')
@@ -65,7 +65,7 @@ subject='Gooed Morning'
 msg=EmailMessage()
 msg['Subject']=subject
 msg['From']=EMAIL_ADDRESS
-msg.set_content(for_sending)
+msg.set_content(Content)
 msg['Bcc']=reciepents
 
 with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
