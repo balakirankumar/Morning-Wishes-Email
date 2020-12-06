@@ -16,48 +16,58 @@ import random
 EMAIL_ADDRESS=os.environ.get('Email_mail')
 EMAIL_PASSWORD=os.environ.get('Email_pass')
 
-#url to scrap
-url='http://quotes.toscrape.com/tag/'
-type_=["love","inspirational","life","humor","books","reading","friendship","friends","truth","simile",]
-url_final=url+random.choice(type_)+"/"
+Quotes=[]
+Authors=[]
+Tags=[]
 
-#making request to url
-r=requests.get(url_final)
-# getting into lxml form
-soup=BeautifulSoup(r.text,'lxml')
+if not os.path.exists('./QuotesForScrapingSeperator@.txt'):
+    #url to scrap
+    url='http://quotes.toscrape.com/tag/'
+    type_=["love","inspirational","life","humor","books","reading","friendship","friends","truth","simile",]
+    url_final=url+random.choice(type_)+"/"
 
-#getting required data
-quotes=soup.find_all('span',class_='text')
-author=soup.find_all('small',class_='author')
-tags=soup.find_all('div',class_='tags')
+    #making request to url
+    r=requests.get(url_final)
+    # getting into lxml form
+    soup=BeautifulSoup(r.text,'lxml')
 
-#To select a random quote from the list all quotes are appended to this list
-quotes_l=[]
-author_l=[]
-tags_l=[]
+    #getting required data
+    quotes=soup.find_all('span',class_='text')
+    author=soup.find_all('small',class_='author')
+    tags=soup.find_all('div',class_='tags')
 
-# getting text from lxml code
-for i in range(len(quotes)):
-    quotes_l.append(quotes[i].text)
-    author_l.append(author[i].text)
-    tag=tags[i].find_all('a',class_='tag')
-    t=""
-    for j in tag:
-        t+=", #"+j.text
-    tags_l.append(t.lstrip(", "))
-len_lists=len(quotes_l)
-numb=random.randrange(0,len_lists)-1
+
+    # getting text from lxml code
+    for i in range(len(quotes)):
+        Quotes.append(quotes[i].text)
+        Authors.append(author[i].text)
+        tag=tags[i].find_all('a',class_='tag')
+        t=""
+        for j in tag:
+            t+=", #"+j.text
+        Tags.append(t.lstrip(", "))
+        random_quote=random.randrange(0,len(Quotes))
+    Content=f"Quote: {Quotes[random_quote]} \nAuthor: {Authors[random_quote]}. \nTags: {Tags[random_quote]}."
+else:
+    with open('./QuotesForScrapingSeperator@.txt','r',encoding='utf-8') as f:
+        for i in f.readlines():
+            Q,A,T=i.split('@')
+            Quotes.append(Q)
+            Authors.append(A)
+            Tags.append(T)
+    random_quote=random.randrange(0,len(Quotes))
+    Content=f"{Quotes[random_quote]}\n{Authors[random_quote]}.{Tags[random_quote]}."
 
 #msg composing to
 contacts = ["Reciever1@gmail.com","Reciever2@gmail.com","so_on@gmail.com"]
 subject= "Good Morning "
-content=f"Quote: {quotes_l[numb]} \nAuthor: {author_l[numb]}. \nTags: {tags_l[numb]}."
+
 
 msg = EmailMessage()
 msg['Subject'] = subject
 msg['From'] = EMAIL_ADDRESS
 msg['Bcc'] = contacts
-msg.set_content(content)
+msg.set_content(Content)
 
 
 with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
