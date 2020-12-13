@@ -61,7 +61,7 @@ else:
 reciepents=["Reciever1@gmail.com","Reciever2@gmail.com","so_on@gmail.com"]
 EMAIL_ADDRESS=os.environ.get('Email_mail')
 EMAIL_PASSWORD=os.environ.get('Email_pass')
-subject='Gooed Morning'
+subject='Good Morning'
 msg=EmailMessage()
 msg['Subject']=subject
 msg['From']=EMAIL_ADDRESS
